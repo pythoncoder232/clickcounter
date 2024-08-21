@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Click Counter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e0f7fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #00796b;
+        }
+
+        #clickCounter {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background-color: #00796b;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.5em;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #004d40;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <div id="clickCounter">clicks:0</div>
+        <button onclick="incrementCounter()">click me please</button>
+    </div>
+
+    <script>
+        async function fetchCount() {
+            const response = await fetch('/count');
+            const data = await response.json();
+            document.getElementById('clickCounter').textContent = `Clicks: ${data.count}`;
+        }
+
+        async function incrementCounter() {
+            const response = await fetch('/increment', {
+                method: 'POST'
+            });
+            const data = await response.json();
+            document.getElementById('clickCounter').textContent = `Clicks: ${data.count}`;
+        }
+
+        // Fetch the current count when the page loads
+        fetchCount();
+    </script>
+</body>
+</html>
